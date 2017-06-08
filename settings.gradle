@@ -1,0 +1,9 @@
+rootProject.name = 'cube-summation-service'
+
+include ":cube-summation-service-api"
+include ":cube-summation-service-core"
+include ":cube-summation-service-service"
+
+project(':cube-summation-service-api').projectDir = "$rootDir/api" as File
+project(':cube-summation-service-core').projectDir = "$rootDir/core" as File
+project(':cube-summation-service-service').projectDir = "$rootDir/service" as File
