@@ -33,13 +33,15 @@ subprojects { project ->
         hibernateVersion = '5.2.5.Final'
     }
 
-    //dependencies for 'main' configurations
-    /*compile 'org.slf4j:slf4j-api:1.7+'
-    compile 'org.tinylog:slf4j-binding:+'*/
-
-    //dependencies for 'test' configurations
-    /*testCompile 'org.scala-lang:scala-library:2.12+'
-    testCompile 'org.scalatest:scalatest_2.12:3+'*/
+    dependencies{
+        //dependencies for 'main' configurations
+        compile 'org.slf4j:slf4j-api:1.7+'
+        compile 'org.tinylog:slf4j-binding:+'
+    
+        //dependencies for 'test' configurations
+        testCompile 'org.scala-lang:scala-library:2.12+'
+        testCompile 'org.scalatest:scalatest_2.12:3+'
+    }
 
     repositories {
         mavenCentral()
