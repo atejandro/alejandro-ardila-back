@@ -1,0 +1,90 @@
+syntax = "proto3";
+
+
+option java_multiple_files = true;
+option java_package = "com.atejandro.examples.api";
+option java_outer_classname = "Messages";
+
+service UserService {
+    rpc CreateUser(CreateUserRequest) returns (UserResponse){}
+    rpc UpdateUser(UpdateUserRequest) returns (UserResponse){}
+}
+
+message User {
+    string name = 1;
+    string surname = 2;
+    string email = 3;
+}
+
+message CreateUserRequest {
+    User user = 1;
+}
+
+message UserResponse {
+    int64 id = 1;
+    User user = 2;
+}
+
+message UpdateUserRequest {
+    int64 id = 1;
+    User user = 2;
+}
+
+service CubeSummationService {
+    rpc CreateCube(CreateCubeRequest) returns (CubeResponse) {}
+    rpc ListCube(ListCubeRequest) returns (ListCubeResponse) {}
+    rpc UpdateCube(UpdateCubeRequest) returns (UpdateCubeReponse) {}
+    rpc QueryCube(QueryCubeRequest) returns (QueryCubeResponse){}
+}
+
+message Coordinate{
+    int32 x = 1;
+    int32 y = 2;
+    int32 z = 3;
+}
+
+message CreateCubeRequest {
+    int32 cube_size = 1;
+    int64 user_id = 2;
+}
+
+message ListCubeRequest {
+    int64 user_id = 1;
+}
+
+message CubeResponse {
+    int64 cube_id = 1;
+    int32 cube_size = 2;
+}
+
+message ListCubeResponse {
+    repeated CubeResponse cubes = 1;
+}
+
+message UpdateCubeRequest {
+    Coordinate coord = 1;
+    int64 value = 2;
+    int64 cube_id = 3;
+}
+
+message QueryCubeRequest {
+    Coordinate from = 1;
+    Coordinate to = 2;
+    int64 cube_id = 3;
+}
+
+message QueryCubeResponse {
+    int64 cube_id = 1;
+    Coordinate from = 2;
+    Coordinate to = 3;
+    int64 answer = 4;
+}
+
+message UpdateCubeReponse{
+    enum Response {
+        OK = 0;
+        NOK = 1;
+    }
+
+    Response response = 1;
+}
