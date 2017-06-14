@@ -1,5 +1,6 @@
-package com.atejandro.examples.algorithm
+package com.atejandro.examples.test
 
+import com.atejandro.examples.exception.CubeOperationOutOfBoundsException
 import org.scalatest.{BeforeAndAfter, FunSpec, GivenWhenThen, Matchers}
 
 import scala.collection.mutable.ListBuffer
@@ -10,58 +11,15 @@ import scala.util.Random
   */
 class CubeTest extends FunSpec with BeforeAndAfter with GivenWhenThen with Matchers {
 
-  sealed trait CubeFixture {
-    val MaxCubeDimension = 10;
-    def randValue: Long = Random.nextInt(500).toLong
-
-    def newCube(dim: Int = Random.nextInt(MaxCubeDimension)+1) = new Cube(dim)
-
-    def randUpdate(cube: Cube): (Int, Int, Int, Long) = {
-      val value = randValue
-      val (x, y, z) = (Random.nextInt(cube.getSize)+1,
-                      Random.nextInt(cube.getSize)+1,
-                      Random.nextInt(cube.getSize)+1)
-      cube.update(x,y,z, value)
-      (x, y, z, value)
-    }
-
-    def updateInRange(x0:Int,y0:Int,z0:Int,x:Int,y:Int,z:Int)(updates: Int)(implicit cube:Cube): Long ={
-
-      var list = ListBuffer.empty[(Int, Int, Int)]
-
-      def pickFromRange(start: Int, end: Int): Int = {
-        var pick: Int = 0
-        pick = start + Random.nextInt((end-start) + 1)
-        pick
-      }
-
-      var sum: Long = 0
-      var i: Int = 0
-      while( i < updates){
-        val xi = pickFromRange(x0, x)
-        val yi = pickFromRange(y0, y)
-        val zi = pickFromRange(z0, z)
-        val value = randValue
-        if(list.isEmpty || !list.contains((xi, yi, zi))){
-          list.append((xi,yi,zi))
-          cube.update(xi, yi, zi, value)
-          sum += value
-          i += 1
-        }
-      }
-      sum
-    }
-  }
-
   describe("Cube summation algorithm"){
     it("should update a value in the cube"){
       new CubeFixture {
         Given("a cube of any size")
         val cube = newCube()
         When("a single value is updated")
-        val (x, y, z, value) = randUpdate(cube)
+        val (coord , value) = randUpdate(cube)
         Then("its query should be the value")
-        cube.query(x, y, z, x, y, z) shouldBe value
+        cube.query(coord, coord) shouldBe value
       }
     }
 
@@ -73,7 +31,7 @@ class CubeTest extends FunSpec with BeforeAndAfter with GivenWhenThen with Match
         val sum = updateInRange(2, 2, 2, 7, 7, 7)(updates = 4)
         And("a query is made in a range covering the updated values")
         Then("the result should be the sum of the values")
-        cube.query(2, 2, 2, 7, 7, 7) shouldBe sum
+        cube.query(coord(2, 2, 2), coord(7, 7, 7)) shouldBe sum
       }
     }
 
@@ -85,8 +43,8 @@ class CubeTest extends FunSpec with BeforeAndAfter with GivenWhenThen with Match
         val sum = updateInRange(2, 2, 2, 7, 7, 7)(updates = 4)
         And("a query is made in a range covering the updated values")
         Then("the result should be the sum of the values")
-        cube.query(1, 1, 1, 1, 1, 1) shouldBe 0
-        cube.query(7,7,7,10,10,10) shouldBe 0
+        cube.query(coord(1, 1, 1), coord(1, 1, 1)) shouldBe 0
+        cube.query(coord(7,7,7) , coord(10,10,10)) shouldBe 0
       }
     }
 
@@ -97,13 +55,13 @@ class CubeTest extends FunSpec with BeforeAndAfter with GivenWhenThen with Match
         When("Non existent bounds are updated")
         Then("An exception should be thrown")
         val exception1 = intercept[CubeOperationOutOfBoundsException]{
-          cube.update(3, 3, 3, 10)
+          cube.update(coord(3, 3, 3), 10)
         }
         val exception2 = intercept[CubeOperationOutOfBoundsException]{
-          cube.update(0, 0, 0, 10)
+          cube.update(coord(0, 0, 0), 10)
         }
         val exception3 = intercept[CubeOperationOutOfBoundsException]{
-          cube.update(-1, -1, 1, 10)
+          cube.update(coord(-1, -1, 1), 10)
         }
         assert(exception1 != null)
         assert(exception2 != null)

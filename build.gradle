@@ -34,6 +34,8 @@ subprojects { project ->
     }
 
     dependencies{
+        compileOnly 'org.projectlombok:lombok:1.16.16'
+
         //dependencies for 'main' configurations
         compile 'org.slf4j:slf4j-api:1.7+'
         compile 'org.tinylog:slf4j-binding:+'
@@ -41,6 +43,7 @@ subprojects { project ->
         //dependencies for 'test' configurations
         testCompile 'org.scala-lang:scala-library:2.12+'
         testCompile 'org.scalatest:scalatest_2.12:3+'
+        testCompile 'junit:junit:4.12'
     }
 
     repositories {

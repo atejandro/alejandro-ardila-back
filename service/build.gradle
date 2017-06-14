@@ -1,0 +1,15 @@
+dependencies{
+
+    compile 'org.springframework:spring-core:4.3.9.RELEASE'
+    compile 'org.springframework:spring-context:4.3.9.RELEASE'
+
+    compile 'com.google.protobuf:protobuf-java:3.1.0'
+    compile "io.grpc:grpc-netty:${grpcVersion}"
+//    compile "io.grpc:grpc-protobuf:${grpcVersion}"
+//    compile "io.grpc:grpc-stub:${grpcVersion}"
+//    compile "io.grpc:grpc-all:${grpcVersion}"
+//    compile "io.grpc:grpc-okhttp:${grpcVersion}"
+
+    compile project(':cube-summation-service-api')
+    compile project(':cube-summation-service-core')
+}

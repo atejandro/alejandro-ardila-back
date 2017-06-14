@@ -1,3 +1,18 @@
 dependencies{
-    compile 'org.projectlombok:lombok:1.16.16'
+
+    ext{
+        springVersion = "4.3.9.RELEASE"
+    }
+
+    compile "org.springframework:spring-core:${springVersion}"
+    compile "org.springframework:spring-context:${springVersion}"
+    compile "org.springframework:spring-tx:${springVersion}"
+    compile "org.springframework:spring-orm:${springVersion}"
+    compile 'org.hibernate:hibernate-core:5.2.10.Final'
+    compile 'org.slf4j:slf4j-simple:1.7.7'
+    compile 'com.google.code.gson:gson:2.8.1'
+
+
+    testCompile "org.springframework:spring-test:${springVersion}"
+    testCompile 'org.hsqldb:hsqldb:2.4.0'
 }
