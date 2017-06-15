@@ -11,6 +11,7 @@ import com.atejandro.examples.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -76,9 +77,19 @@ public class CubeManager {
         }
     }
 
-    public long query(Long id, Coordinate origin, Coordinate source)
+    public List<Cube> list(Long userId) throws UserNotFoundException {
+        Optional<User> userOption = userRepository.findById(userId);
+
+        if(userOption.isPresent()) {
+            return cubeRepository.list(userId);
+        } else {
+            throw new UserNotFoundException("The user was not found.");
+        }
+    }
+
+    public long query(Long cubeId, Coordinate origin, Coordinate source)
             throws CubeOperationOutOfBoundsException, CubeNotFoundException {
-        Optional<Cube> cubeOption = cubeRepository.findById(id);
+        Optional<Cube> cubeOption = cubeRepository.findById(cubeId);
 
         if(cubeOption.isPresent()){
             Cube cube = cubeOption.get();
